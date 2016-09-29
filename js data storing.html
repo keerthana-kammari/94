@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="srylesheet" href="http://getbootstrap.com/css/#forms">
+
+    <title>Local storage</title>
+   
+    <style>
+	    body
+	    {
+	    	display:block !important;
+	    	background-color:!important;
+	    	font-size:16px;
+	    }
+	    input
+	    {
+	    	
+	    	padding:2px;
+	    	margin:3px;
+	    }
+	   
+    </style>
+</head>
+<body onload="load()">
+<script>
+function save() {
+         
+    var myName = document.getElementById("name");
+    var age = document.getElementById("age");
+    var password = document.getElementById("password");
+    var email = document.getElementById("email");
+    try {
+        localStorage.setItem("name", myName.value);
+        localStorage.setItem("age", age.value);
+        localStorage.setItem("password", password.value);
+        localStorage.setItem("email", email.value);
+        myName.value = "";
+        age.value = "";
+        password.value="";
+        email.value="";
+    } 
+    catch (e) {
+        if (e == QUOTA_EXCEEDED_ERR) {
+            console.log("Error: Local Storage limit exceeds.");
+        }
+        else {
+            console.log("Error: Saving to local storage.");
+        }
+    } 
+}
+
+function get() {
+    console.log("Getting your data from local storage.");
+    var myName = document.getElementById("name");
+    var age = document.getElementById("age");
+    var password= document.getElementById("password");
+    var email = document.getElementById("email");
+    myName.value =localStorage.getItem("name");
+    age.value = localStorage.getItem("age");
+    password.value= localStorage.getItem("password");
+    email.value = localStorage.getItem("email");
+   // window.open(myName.value);
+   
+}
+function remove() {
+    console.log("Removing data from local storage.");
+    localStorage.removeItem("name");
+    localStorage.removeItem("age");
+    localStorage.removeItem("password");
+    localStorage.removeItem("email");
+   
+}
+
+function clearStorage() {
+    console.log("Clearing local storage."); 
+    localStorage.clear();
+   
+}
+
+function saveComplexData() {
+    console.log("Saving complex data to local storage.");
+    var myName = document.getElementById("name");
+    var age = document.getElementById("age");
+    var personObject = new Object();
+    personObject.name = myName.value;
+    personObject.age = age.value;
+    personObject.password = password.value;
+    personObject.email = email.value;
+    localStorage.setItem("person", JSON.stringify(personObject));
+   
+}
+
+function restoreComplexData() {
+    console.log("Restoring complex data from local storage.");
+    var myName = document.getElementById("name");
+    var age = document.getElementById("age");
+    var password= document.getElementById("password");
+    var email = document.getElementById("email");
+    var personObject = JSON.parse(localStorage.getItem("person"));
+    myName.value = personObject.name;
+    age.value = personObject.age;
+    password.value = personObject.password;
+    email.value = personObject.email;
+}
+
+function saveArrayData() {
+    console.log("Saving array data to local storage.");
+	   var myName = document.getElementById("name");
+	    var age = document.getElementById("age");
+	    var password= document.getElementById("password");
+	    var email = document.getElementById("email");
+	    myName.value =localStorage.getItem("name");
+	    age.value = localStorage.getItem("age");
+	    password.value= localStorage.getItem("password");
+	    email.value = localStorage.getItem("email");
+
+    var myArrayObject = [];
+       var personObject1 = new Object();
+    personObject1.name = myName.value
+    personObject1.age = age.value;
+   // personObject1.password = password.value;
+    personObject1.email = email.value;
+    myArrayObject.push(personObject1);
+   
+/*    var personObject2 = new Object();
+    personObject2.name = "Array2";
+    personObject2.age = 24;
+    myArrayObject.push(personObject2);
+   
+    var personObject3 = new Object();
+    personObject3.name = "Array3";
+    personObject3.age = 25;
+    myArrayObject.push(personObject3);*/
+   
+    localStorage.setItem("persons", JSON.stringify(myArrayObject));
+   
+}
+
+function restoreArrayData() {
+    console.log("Restoring array data from local storage.");
+   
+    var myArrayObject = JSON.parse(localStorage.getItem("persons"));
+    for (var i=0; i<myArrayObject.length; i++){
+        var personObject = myArrayObject[i];
+        console.log("Name: " + personObject.name, "Age: " + personObject.age, /*"Password:" +personObject.password,*/ "Email:" +personObject.email);
+    }
+   
+}
+function load() {
+   
+    console.log("Page load finished");
+    if (typeof(Storage) == "undefined" ) {
+            alert("Your browser does not support HTML5 localStorage. Try upgrading.");
+    } 
+    else {
+        console.log("Both localStorage and sessionStorage support is there.");
+    }
+}
+</script>
+<!-- <h4>Simple form</h4>
+<div id="myform">
+<center>
+   <form>
+		  Name:<input type="text" id="name"><br />
+		   Age:<input type="number" id="age" name="Age:"/><br />
+	   Password:<input type="password" id="password"><br />
+		 Email:<input type="email" id="email"><br />
+		   <button type="submit" class="btn btn-primary">Submit</button>
+  </form>  
+</center>
+  </div> -->
+
+<div class="container" style="margin-top:15px;">
+<form class="form-horizontal" method="get" action="js data storing.html" id="myform1">
+  <div class="form-group">
+      <label class="col-md-2 control-label">Name:</label>
+        <div class="col-md-6">
+          <input type="text" class="form-control" id="name"  placeholder="Enter Your Name" required>
+        </div>
+  </div>
+  <div class="form-group">
+      <label class="col-md-2 control-label">Age:</label>
+        <div class="col-md-6">
+          <input type="number" id="age" class="form-control" placeholder="Enter your Age">
+        </div> 
+  </div>
+  <div class="form-group">  
+      <label class="col-md-2 control-label">Password:</label>
+        <div class="col-md-6">
+          <input type="password" class="form-control" id="password" placeholder="Password" required>
+        </div> 
+  </div>
+  <div class="form-group">
+      <label class="col-md-2 control-label">Email:</label>
+        <div class="col-md-6">
+         <input type="email" class="form-control" id="email" placeholder="Enter your Email" required>
+        </div>
+  </div>
+  <div class="checkbox">
+        <div class="col-md-6">
+     <label>   
+      <input type="checkbox"> Remember me
+    </label>
+  </div>
+  <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+</form>
+</div>
+
+
+
+<table>   
+    <tr>
+        <td>&nbsp;</td>
+        <td>
+            <input type="button" class="btn btn-success" id="add" value="Add to Storage" onclick="Javascript:save()">
+        </td>
+        <td>&nbsp;</td>
+        <td>
+            <input type="button" id="get" class="btn btn-success" value="Get from Storage" onclick="Javascript:get()">
+        </td>
+        <td>&nbsp;</td>
+        <td>
+            <input type="button" id="del" class="btn btn-success" value="Remove from Storage" onclick="Javascript:remove()">
+        </td>
+        <td>&nbsp;</td>
+        <td>
+            <input type="button" id="clear" class="btn btn-success" value="Clear Local Storage" onclick="Javascript:clearStorage()">
+        </td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>
+            <input type="button" id="saveC" class="btn btn-success" value="Save complex data" onclick="Javascript:saveComplexData()">
+        </td>
+        <td>&nbsp;</td>
+        <td>
+            <input type="button" id="restoreC" class="btn btn-success" value="Restore complex data" onclick="Javascript:restoreComplexData()">
+        </td>
+        <td>&nbsp;</td>
+        <td>
+            <input type="button" id="sArray" class="btn btn-success" value="Save Array data" onclick="Javascript:saveArrayData()">
+        </td>
+        <td>&nbsp;</td>
+        <td>
+            <input type="button" id="rArray" class="btn btn-success" value="Restore Array data" onclick="Javascript:restoreArrayData()">
+        </td>
+    </tr>
+</table>
+</div>
+</body>
+</html>
